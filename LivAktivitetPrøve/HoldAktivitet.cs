@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace LivAktivitetPrøve
 {
@@ -18,33 +17,22 @@ namespace LivAktivitetPrøve
 
         public void AddDeltager(Deltager d)
         {
-            string str = string.Empty;
-            if (_deltagere.Count > 0)
+            bool isIDTaken = false;
+            foreach (Deltager deltager in _deltagere)
             {
-                foreach (Deltager deltager in _deltagere)
+                if (deltager.ID == d.ID)
                 {
-                    if (deltager.ID == d.ID)
-                    {
-                        str += "Er allerede tilmeldt";
-
-                        break;
-                    }
-                }
-                if (d.Alder < _minAlder || d.Alder > MaxAlder)
-                {
-                    Console.WriteLine("Deltager ikke inde for aldersgrænsen");
-                }
-                else if (str != string.Empty)
-                {
-                    Console.WriteLine(str);
-
-                }
-                else
-                {
-                    _deltagere.Add(d);
+                    isIDTaken = true;
+                    Console.WriteLine($"{deltager.Navn} er allerede tilmeldt");
+                    break;
                 }
             }
-            else _deltagere.Add(d);
+            if (d.Alder < _minAlder || d.Alder > MaxAlder)
+            {
+                isIDTaken = true;
+                Console.WriteLine("Deltager ikke inde for aldersgrænsen");
+            }
+            if (isIDTaken == false) _deltagere.Add(d);
         }
 
         public void DeleteDeltager(int id)
